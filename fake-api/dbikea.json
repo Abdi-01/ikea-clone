@@ -1,0 +1,41 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Admin",
+      "email": "admin@mail.com",
+      "password": "1234",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "username": "Abdi",
+      "email": "abdi@mail.com",
+      "password": "1234",
+      "role": "user"
+    },
+    {
+      "username": "Aldo",
+      "email": "aldo@mail.com",
+      "password": "12345",
+      "role": "user",
+      "id": 3
+    },
+    {
+      "username": "Ade",
+      "email": "ade@mail.com",
+      "password": "1234",
+      "role": "user",
+      "id": 4
+    },
+    {
+      "username": "aldi",
+      "email": "aldi@mail.com",
+      "password": "1234",
+      "role": "user",
+      "id": 5
+    }
+  ],
+  "products": [],
+  "cart": []
+}
