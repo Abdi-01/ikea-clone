@@ -6,11 +6,15 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux'
 import { authLogout } from '../actions'
+
 class NavbarComp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             buka: false
+        }
+        this.navColor = {
+            backgroundColor: this.props.role == "user" ? '#FFFFFF' : "#ecf0f1",
         }
     }
     toggle = () => {
@@ -18,7 +22,7 @@ class NavbarComp extends React.Component {
     }
     render() {
         return (
-            <div className="container-fluid">
+            <div>
                 <div>
                     <ul type="none" className="d-flex m-2" style={{ justifyContent: 'space-between', color: 'blue' }}>
                         <li>Indonesia</li>
@@ -32,9 +36,13 @@ class NavbarComp extends React.Component {
                         <li><Link to="/auth">Masuk atau Daftar</Link></li>
                     </ul>
                 </div>
-                <Navbar expand="md" style={{ backgroundColor: '#FFFFFF' }}>
-                    <NavbarBrand><img src="https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/logos/IKEA_logo.svg"
-                        width="100px" /></NavbarBrand>
+                <Navbar expand="md" style={this.navColor}>
+                    <NavbarBrand>
+                        <Link to="/">
+                            <img src="https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/logos/IKEA_logo.svg"
+                                width="100px" />
+                        </Link>
+                    </NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.buka} navbar>
                         <Nav className="mr-auto" navbar>
@@ -89,7 +97,9 @@ class NavbarComp extends React.Component {
                                             </> :
                                             <>
                                                 <DropdownItem>
-                                                    Product Management
+                                                    <Link to="/product-management" style={{ textDecoration: 'none', color: 'gray' }}>
+                                                        Product Management
+                                                    </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
                                                     Transaction Management

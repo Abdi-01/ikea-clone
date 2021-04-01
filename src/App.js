@@ -9,6 +9,8 @@ import axios from 'axios';
 import { URL_API } from './helper';
 import { keepLogin } from './actions'
 import { connect } from 'react-redux'
+import ProductManagement from './pages/productManagement';
+import NotFound from './pages/notFound';
 
 class App extends React.Component {
   constructor(props) {
@@ -40,10 +42,26 @@ class App extends React.Component {
         <Switch>
           <Route path="/" component={LandingPage} exact />
           <Route path="/auth" component={AuthPage} />
+          {
+            this.props.role == "admin" &&
+            <>
+              <Route path="/product-management" component={ProductManagement} />
+            </>
+          }
+          <Route path="*" component={NotFound} />
         </Switch>
       </div>
     );
   }
 }
 
-export default connect(null, { keepLogin })(App);
+// inline condition
+// 1. condition ? return A : return B, sama dengan kita buat if(condition){}else{}
+// 2. condition && return, sama dengan kita buat if(condition){}
+const mapStateToProps = ({ authReducer }) => {
+  return {
+    role: authReducer.role
+  }
+}
+
+export default connect(mapStateToProps, { keepLogin })(App);
