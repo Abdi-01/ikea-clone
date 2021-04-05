@@ -9,6 +9,9 @@ class ProductManagement extends React.Component {
             modalOpen: false
         }
     }
+
+    // 
+
     render() {
         return (
             <div className="p-2">

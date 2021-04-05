@@ -6,49 +6,20 @@ class ModalProduct extends React.Component {
         console.log("props", props)
         super(props);
         this.state = {
-            stock: [{
-                type: '',
-                stock: ''
-            }]
+            stock: []
         }
     }
 
     onBtAdd = () => {
-        let stock = [
-            {
-                type: this.inType1.value,
-                stock: this.inStock1.value
-            },
-            {
-                type: this.inType2.value,
-                stock: this.inStock2.value
-            },
-            {
-                type: this.inType2.value,
-                stock: this.inStock2.value
-            },
-        ]
+
+    }
+
+    onBtAddStock=()=>{
+
     }
 
     printStock = () => {
-        return this.state.stock.map((item, index) => {
-            return (
-                <Row>
-                    <Col>
-                        <FormGroup>
-                            <Label for="textNama">Type 1</Label>
-                            <Input type="text" id="textNama" innerRef={elemen => this.inType1 = elemen} />
-                        </FormGroup>
-                    </Col>
-                    <Col>
-                        <FormGroup>
-                            <Label for="textNama">Stock 1</Label>
-                            <Input type="text" id="textNama" innerRef={elemen => this.inStock1 = elemen} />
-                        </FormGroup>
-                    </Col>
-                </Row>
-            )
-        })
+        
     }
 
     render() {
