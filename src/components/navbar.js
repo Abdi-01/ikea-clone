@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
     Collapse, Navbar, NavbarBrand, NavbarToggler, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownMenu
-    , DropdownItem, DropdownToggle, InputGroup, Input, InputGroupAddon
+    , DropdownItem, DropdownToggle, InputGroup, Input, InputGroupAddon, Dropdown
 } from 'reactstrap';
 import { connect } from 'react-redux'
 import { authLogout } from '../actions'
@@ -11,7 +11,9 @@ class NavbarComp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            buka: false
+            buka: false,
+            openSearch: true,
+            dataSearch: []
         }
         this.navColor = {
             backgroundColor: this.props.role == "user" ? '#FFFFFF' : "#ecf0f1",
@@ -20,7 +22,19 @@ class NavbarComp extends React.Component {
     toggle = () => {
         this.setState({ buka: !this.state.buka })
     }
+
+    handleSearch = () => {
+        let dataSearch = this.props.products.filter(item => item.nama.includes(this.search.value))
+        this.setState({ openSearch: !this.state.openSearch, dataSearch })
+    }
+
+    printSearch = () => {
+        return this.state.dataSearch.map((item, index) => {
+            return <DropdownItem>{item.nama}</DropdownItem>
+        })
+    }
     render() {
+        console.log(this.state.dataSearch,this.state.openSearch)
         return (
             <div>
                 <div>
@@ -67,14 +81,19 @@ class NavbarComp extends React.Component {
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         </Nav>
-                        <InputGroup size="sm" style={{ width: '20%' }}>
-                            <Input placeholder="Cari..." />
-                            <InputGroupAddon addonType="append">
-                                <span className="btn btn-outline-secondary material-icons">
-                                    search
+                        <Dropdown isOpen={this.state.openSearch}>
+                            <InputGroup size="sm" >
+                                <Input placeholder="Cari..." innerRef={el => this.search = el} />
+                                <InputGroupAddon addonType="append">
+                                    <span onClick={this.handleSearch} className="btn btn-outline-secondary material-icons">
+                                        search
                                 </span>
-                            </InputGroupAddon>
-                        </InputGroup>
+                                </InputGroupAddon>
+                            </InputGroup>
+                            <DropdownMenu>
+                                {this.printSearch()}
+                            </DropdownMenu>
+                        </Dropdown>
                         {
                             this.props.username &&
                             <UncontrolledDropdown>
@@ -120,10 +139,11 @@ class NavbarComp extends React.Component {
     }
 }
 
-const mapStateToProps = ({ authReducer }) => {
+const mapStateToProps = ({ authReducer, productReducers }) => {
     return {
         username: authReducer.username,
-        role: authReducer.role
+        role: authReducer.role,
+        products: productReducers.products_list
     }
 }
 

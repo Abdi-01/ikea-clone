@@ -10,7 +10,7 @@ class ModalEditProduct extends React.Component {
             images: [],
         }
     }
-    
+
     onBtAdd = () => {
         console.log(this.state.stock)
         axios.post(URL_API + '/products', {
@@ -24,22 +24,23 @@ class ModalEditProduct extends React.Component {
         }).then(res => {
             console.log(res.data)
             alert('Add Product Success')
+            this.props.getData()
         }).catch(err => {
             console.log(err)
         })
     }
-    
+
     onBtAddStock = () => {
         // let tempStock = [...this.state.stock]
         this.state.stock.push({ id: null, type: null, qty: null })
         this.setState({ stock: this.state.stock })
     }
-    
+
     onBtAddImages = () => {
         this.state.images.push("")
         this.setState({ images: this.state.images })
     }
-    
+
     printStock = () => {
         let { stock } = this.props.detailProduk
         if (stock) {
@@ -58,7 +59,7 @@ class ModalEditProduct extends React.Component {
             })
         }
     }
-    
+
     printImages = () => {
         let { images } = this.props.detailProduk
         if (images) {
@@ -67,31 +68,31 @@ class ModalEditProduct extends React.Component {
             })
         }
     }
-    
+
     onBtDeleteStock = (index) => {
         this.props.detailProduk.stock.splice(index, 1)
         this.setState({ stock: this.state.stock })
     }
-    
+
     handleImages = (e, index) => {
         this.props.detailProduk.images[index] = e.target.value
     }
-    
+
     handleType = (e, index) => {
         this.props.detailProduk.stock[index].type = e.target.value
     }
-    
+
     handleStock = (e, index) => {
         this.props.detailProduk.stock[index].qty = parseInt(e.target.value)
     }
-    
+
     onBtCancel = () => {
-        this.setState({ stock: [], images: []})
+        // this.setState({ stock: [], images: [] })
         // fungsi untuk close modal
         this.props.btClose()
     }
 
-    onBtSubmit=()=>{
+    onBtSave = () => {
         console.log(
             {
                 nama: this.inNama.value,
@@ -103,8 +104,24 @@ class ModalEditProduct extends React.Component {
                 images: this.props.detailProduk.images
             }
         )
+        axios.patch(URL_API + `/products/${this.props.detailProduk.id}`, {
+            nama: this.inNama.value,
+            deskripsi: this.inDeskripsi.value,
+            brand: this.inBrand.value,
+            kategori: this.inKategori.value,
+            harga: parseInt(this.inHarga.value),
+            stock: this.props.detailProduk.stock,
+            images: this.props.detailProduk.images
+        })
+            .then(res => {
+                console.log(res.data)
+                this.props.getData()
+                this.props.btClose()
+            }).catch(err => {
+                console.log(err)
+            })
     }
-    
+
     render() {
         console.log("detailProduk", this.props.detailProduk)
         let { nama, deskripsi, brand, kategori, harga } = this.props.detailProduk
@@ -150,7 +167,7 @@ class ModalEditProduct extends React.Component {
                     </FormGroup>
                 </ModalBody>
                 <ModalFooter>
-                    <Button type="button" color="primary" onClick={this.onBtSubmit}>Submit</Button>{' '}
+                    <Button type="button" color="primary" onClick={this.onBtSave}>Save</Button>{' '}
                     <Button color="secondary" onClick={this.onBtCancel}>Cancel</Button>
                 </ModalFooter>
             </Modal>

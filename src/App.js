@@ -7,7 +7,7 @@ import LandingPage from './pages/landingPage'
 import AuthPage from './pages/authPage'
 import axios from 'axios';
 import { URL_API } from './helper';
-import { keepLogin } from './actions'
+import { keepLogin, getProductAction } from './actions'
 import { connect } from 'react-redux'
 import ProductManagement from './pages/productManagement';
 import NotFound from './pages/notFound';
@@ -22,6 +22,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.reLogin()
+    this.getProducts()
   }
 
   reLogin = () => {
@@ -32,6 +33,16 @@ class App extends React.Component {
       })
       .catch(err => {
         console.log("Keeplogin error :", err)
+      })
+  }
+
+  getProducts = () => {
+    axios.get(URL_API + `/products`)
+      .then(res => {
+        this.props.getProductAction(res.data)
+      })
+      .catch(err => {
+        console.log("getProduct error :", err)
       })
   }
 
@@ -64,4 +75,4 @@ const mapStateToProps = ({ authReducer }) => {
   }
 }
 
-export default connect(mapStateToProps, { keepLogin })(App);
+export default connect(mapStateToProps, { keepLogin, getProductAction })(App);

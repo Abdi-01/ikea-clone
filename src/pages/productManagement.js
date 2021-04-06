@@ -1,9 +1,11 @@
-import axios from 'axios';
 import React from 'react';
-import { Button, Table, Badge } from 'reactstrap';
+import axios from 'axios';
+import { Button, Table, Badge, Input } from 'reactstrap';
 import ModalProduct from '../components/modalProduct';
 import ModalEditProduct from '../components/modalEditProduct';
 import { URL_API } from '../helper'
+import { connect } from 'react-redux'
+import { getProductAction } from '../actions'
 
 let kursor = {
     cursor: "pointer",
@@ -22,14 +24,14 @@ class ProductManagement extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.getData()
-    }
+    // componentDidMount() {
+    //     // this.getData()
+    // }
 
     getData = () => {
         axios.get(URL_API + '/products')
             .then(res => {
-                this.setState({ data: res.data })
+                this.props.getProductAction(res.data)
             })
             .catch(err => {
                 console.log(err)
@@ -37,7 +39,7 @@ class ProductManagement extends React.Component {
     }
 
     printProduk = () => {
-        return this.state.data.map((item, index) => {
+        return this.props.products.map((item, index) => {
             return <tr>
                 <td>{index + 1}</td>
                 <td style={{ width: '20vw', textAlign: 'center' }}>
@@ -71,15 +73,37 @@ class ProductManagement extends React.Component {
         })
     }
 
+    handleSort = () => {
+        let field = this.sortProduct.value.split('-')[0]
+        let sortType = this.sortProduct.value.split('-')[1]
+        axios.get(URL_API + `/products?_sort=${field}&_order=${sortType}`)
+            .then(res => {
+                console.log(field, sortType, res.data)
+                this.setState({ data: res.data })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
     render() {
         console.log(this.state.detailProduk)
         return (
             <div className="p-2">
                 <h3 className="text-center">Produk Management</h3>
-                <Button type="button" style={{ float: 'right' }} color="success" onClick={() => this.setState({ modalOpen: !this.state.modalOpen })}>Add</Button>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Input style={{ width: '20%' }} type="select" onClick={this.handleSort} placeholder="sort"
+                        innerRef={el => this.sortProduct = el}>
+                        <option value="nama-asc">Nama Asc</option>
+                        <option value="nama-desc">Nama Desc</option>
+                        <option value="harga-asc">Harga Asc</option>
+                        <option value="harga-desc">Harga Desc</option>
+                    </Input>
+                    <Button type="button" color="success" onClick={() => this.setState({ modalOpen: !this.state.modalOpen })}>Add</Button>
+                </div>
                 {/* Modal untuk detail product */}
                 <ModalEditProduct modalOpen={this.state.modalEditOpen} detailProduk={this.state.detailProduk}
-                    btClose={() => this.setState({ modalEditOpen: !this.state.modalEditOpen })} />
+                    btClose={() => this.setState({ modalEditOpen: !this.state.modalEditOpen })} getData={this.getData} />
                 {/* Modal untuk add product */}
                 <ModalProduct modalOpen={this.state.modalOpen}
                     btClose={() => this.setState({ modalOpen: !this.state.modalOpen })} getData={this.getData} />
@@ -105,4 +129,10 @@ class ProductManagement extends React.Component {
     }
 }
 
-export default ProductManagement;
+const mapToProps = ({ productReducers }) => {
+    return {
+        products: productReducers.products_list
+    }
+}
+
+export default connect(mapToProps, { getProductAction })(ProductManagement);

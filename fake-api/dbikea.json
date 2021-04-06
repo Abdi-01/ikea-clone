@@ -38,7 +38,7 @@
   ],
   "products": [
     {
-      "nama": "IDALINNEA",
+      "nama": "IDALINNEA D",
       "deskripsi": " Ritsleting yang tersembunyi membuat sarung mudah dilepas.  Sarung bantal dengan tampilan cermin karena memiliki pola yang sama di kedua sisi.  Katun adalah bahan alami lembut dan mudah dirawat yang dapat Anda cuci dengan mesin.",
       "brand": "IKEA",
       "kategori": "Sofa",
@@ -62,7 +62,7 @@
       "id": 1
     },
     {
-      "nama": "HAUGA",
+      "nama": "HAUGA V.2",
       "deskripsi": "Mudah untuk menyembunyikan kabel dan stopkontak tapi tetap dapat dijangkau dengan jalur kabel di bagian belakang.",
       "brand": "IKEA",
       "kategori": "Meja",
@@ -86,6 +86,30 @@
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/557/0955706_PE803970_S4.jpg"
       ],
       "id": 2
+    },
+    {
+      "nama": "LINNEBÄCK",
+      "deskripsi": "Lebar:\t55 cm Kedalaman:\t69,5 cm Tinggi:\t72,4 cm Lebar dudukan:\t57 cm Kedalaman dudukan:\t50 cm Tinggi dudukan:\t42,4 cm Berat total:\t6,50 kg",
+      "brand": "IKEA",
+      "kategori": "Kursi",
+      "harga": 995000,
+      "stock": [
+        {
+          "id": null,
+          "type": "Black",
+          "qty": 12
+        },
+        {
+          "id": null,
+          "type": "White",
+          "qty": 5
+        }
+      ],
+      "images": [
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/407/0940712_PE795127_S4.jpg"
+      ],
+      "id": 3
     }
   ],
   "cart": []
