@@ -12,7 +12,7 @@ class NavbarComp extends React.Component {
         super(props);
         this.state = {
             buka: false,
-            openSearch: true,
+            openSearch: false,
             dataSearch: []
         }
         this.navColor = {
@@ -24,8 +24,12 @@ class NavbarComp extends React.Component {
     }
 
     handleSearch = () => {
-        let dataSearch = this.props.products.filter(item => item.nama.includes(this.search.value))
-        this.setState({ openSearch: !this.state.openSearch, dataSearch })
+        if (this.search.value == "") {
+            this.setState({ openSearch: false, dataSearch: [] })
+        } else {
+            let dataSearch = this.props.products.filter(item => item.nama.toLowerCase().includes(this.search.value.toLowerCase()))
+            this.setState({ openSearch: dataSearch.length > 0 ? true : false, dataSearch })
+        }
     }
 
     printSearch = () => {
@@ -34,7 +38,7 @@ class NavbarComp extends React.Component {
         })
     }
     render() {
-        console.log(this.state.dataSearch,this.state.openSearch)
+        console.log(this.state.dataSearch, this.state.openSearch)
         return (
             <div>
                 <div>
@@ -61,7 +65,7 @@ class NavbarComp extends React.Component {
                     <Collapse isOpen={this.state.buka} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem>
-                                <NavLink href="/components/" style={{ color: 'gray', fontWeight: 'bold' }}>Products</NavLink>
+                                <Link to="/products" className="nav-link" style={{ color: 'black', fontWeight: 'bold' }}>Products</Link>
                             </NavItem>
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret style={{ color: 'gray', fontWeight: 'bold' }}>
@@ -81,19 +85,19 @@ class NavbarComp extends React.Component {
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         </Nav>
-                        <Dropdown isOpen={this.state.openSearch}>
-                            <InputGroup size="sm" >
-                                <Input placeholder="Cari..." innerRef={el => this.search = el} />
-                                <InputGroupAddon addonType="append">
-                                    <span onClick={this.handleSearch} className="btn btn-outline-secondary material-icons">
+                        <InputGroup size="sm" style={{ width: '15%' }}>
+                            <Input placeholder="Cari..." onChange={this.handleSearch} innerRef={el => this.search = el} />
+                            <InputGroupAddon addonType="append">
+                                <Dropdown isOpen={this.state.openSearch} toggle={this.handleSearch}>
+                                    <DropdownToggle className="btn btn-primary btn-sm material-icons">
                                         search
-                                </span>
-                                </InputGroupAddon>
-                            </InputGroup>
-                            <DropdownMenu>
-                                {this.printSearch()}
-                            </DropdownMenu>
-                        </Dropdown>
+                                    </DropdownToggle>
+                                    <DropdownMenu right>
+                                        {this.printSearch()}
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </InputGroupAddon>
+                        </InputGroup>
                         {
                             this.props.username &&
                             <UncontrolledDropdown>

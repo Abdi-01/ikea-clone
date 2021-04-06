@@ -11,6 +11,7 @@ import { keepLogin, getProductAction } from './actions'
 import { connect } from 'react-redux'
 import ProductManagement from './pages/productManagement';
 import NotFound from './pages/notFound';
+import ProductsPage from './pages/productsPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -53,6 +54,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/" component={LandingPage} exact />
           <Route path="/auth" component={AuthPage} />
+          <Route path="/products" component={ProductsPage} />
           {
             this.props.role == "admin" &&
             <>
