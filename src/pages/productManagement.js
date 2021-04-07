@@ -28,15 +28,15 @@ class ProductManagement extends React.Component {
     //     // this.getData()
     // }
 
-    getData = () => {
-        axios.get(URL_API + '/products')
-            .then(res => {
-                this.props.getProductAction(res.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
+    // getData = () => {
+    //     axios.get(URL_API + '/products')
+    //         .then(res => {
+    //             this.props.getProductAction(res.data)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
 
     printProduk = () => {
         return this.props.products.map((item, index) => {
@@ -103,10 +103,10 @@ class ProductManagement extends React.Component {
                 </div>
                 {/* Modal untuk detail product */}
                 <ModalEditProduct modalOpen={this.state.modalEditOpen} detailProduk={this.state.detailProduk}
-                    btClose={() => this.setState({ modalEditOpen: !this.state.modalEditOpen })} getData={this.getData} />
+                    btClose={() => this.setState({ modalEditOpen: !this.state.modalEditOpen })} getData={this.props.getProductAction()} />
                 {/* Modal untuk add product */}
                 <ModalProduct modalOpen={this.state.modalOpen}
-                    btClose={() => this.setState({ modalOpen: !this.state.modalOpen })} getData={this.getData} />
+                    btClose={() => this.setState({ modalOpen: !this.state.modalOpen })} getData={this.props.getProductAction()} />
                 <Table>
                     <thead>
                         <tr>

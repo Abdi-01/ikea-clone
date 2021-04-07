@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { Provider } from 'react-redux';
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Reducers } from './reducers';
+import ReduxThunk from 'redux-thunk'
 
-const globalStore = createStore(Reducers)
+const globalStore = createStore(Reducers, {}, applyMiddleware(ReduxThunk));
 ReactDOM.render(
   <Provider store={globalStore}>
     <BrowserRouter>

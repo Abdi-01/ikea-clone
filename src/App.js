@@ -23,7 +23,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.reLogin()
-    this.getProducts()
+    this.props.getProductAction()
   }
 
   reLogin = () => {
@@ -37,15 +37,15 @@ class App extends React.Component {
       })
   }
 
-  getProducts = () => {
-    axios.get(URL_API + `/products`)
-      .then(res => {
-        this.props.getProductAction(res.data)
-      })
-      .catch(err => {
-        console.log("getProduct error :", err)
-      })
-  }
+  // getProducts = () => {
+  //   axios.get(URL_API + `/products`)
+  //     .then(res => {
+  //       this.props.getProductAction(res.data)
+  //     })
+  //     .catch(err => {
+  //       console.log("getProduct error :", err)
+  //     })
+  // }
 
   render() {
     return (
