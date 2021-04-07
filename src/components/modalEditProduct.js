@@ -6,8 +6,8 @@ class ModalEditProduct extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            stock: [],
-            images: [],
+            stock: props.detailProduk.stock,
+            images: props.detailProduk.images,
         }
     }
 
@@ -42,7 +42,7 @@ class ModalEditProduct extends React.Component {
     }
 
     printStock = () => {
-        let { stock } = this.props.detailProduk
+        let { stock } = this.state
         if (stock) {
             return stock.map((item, index) => {
                 return <Row>
@@ -61,7 +61,7 @@ class ModalEditProduct extends React.Component {
     }
 
     printImages = () => {
-        let { images } = this.props.detailProduk
+        let { images } = this.state
         if (images) {
             return images.map((item, index) => {
                 return <Input type="text" defaultValue={item} placeholder={`Images-${index + 1}`} onChange={(e) => this.handleImages(e, index)} />
