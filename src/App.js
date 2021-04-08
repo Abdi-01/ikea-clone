@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import ProductManagement from './pages/productManagement';
 import NotFound from './pages/notFound';
 import ProductsPage from './pages/productsPage';
+import ProductDetail from './pages/productDetail';
 
 class App extends React.Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class App extends React.Component {
           <Route path="/" component={LandingPage} exact />
           <Route path="/auth" component={AuthPage} />
           <Route path="/products" component={ProductsPage} />
+          <Route path="/product-detail" component={ProductDetail}/>
           {
             this.props.role == "admin" &&
             <>

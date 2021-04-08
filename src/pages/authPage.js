@@ -66,22 +66,11 @@ class AuthPage extends React.Component {
     }
 
     onBtLogin = () => {
-        axios.get(URL_API + `/users?email=${this.inEmail.value}&password=${this.inPassword.value}`)
-            .then(res => {
-                if (res.data.length > 0) {
-                    this.props.authLogin(res.data[0])
-                    // menyimpan data token kedalam browser
-                    localStorage.setItem('tkn_id', res.data[0].id)
-                    this.setState({ redirect: true })
-                }
-            })
-            .catch(err => {
-                console.log("Login Error :", err)
-            })
+        this.props.authLogin(this.inEmail.value, this.inPassword.value)
     }
 
     render() {
-        if (this.state.redirect) {
+        if (this.props.id) {
             return <Redirect to="/" />
         }
         return (
@@ -131,4 +120,10 @@ class AuthPage extends React.Component {
     }
 }
 
-export default connect(null, { authLogin })(AuthPage);
+const mapToProps = ({ authReducer }) => {
+    return {
+        id: authReducer.id
+    }
+}
+
+export default connect(mapToProps, { authLogin })(AuthPage);

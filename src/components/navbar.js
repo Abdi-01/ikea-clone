@@ -16,7 +16,7 @@ class NavbarComp extends React.Component {
             dataSearch: []
         }
         this.navColor = {
-            backgroundColor: this.props.role == "user" ? '#FFFFFF' : "#ecf0f1",
+            backgroundColor: props.role == "admin" ? '#95a5a6' : "#FFFFFF",
         }
     }
     toggle = () => {
@@ -54,7 +54,7 @@ class NavbarComp extends React.Component {
                         <li><Link to="/auth">Masuk atau Daftar</Link></li>
                     </ul>
                 </div>
-                <Navbar expand="md" style={this.navColor}>
+                <Navbar expand="md" style={{backgroundColor: this.props.role == "admin" ? '#95a5a6' : "#FFFFFF"}}>
                     <NavbarBrand>
                         <Link to="/">
                             <img src="https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/logos/IKEA_logo.svg"
@@ -65,7 +65,7 @@ class NavbarComp extends React.Component {
                     <Collapse isOpen={this.state.buka} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem>
-                                <Link to="/products" className="nav-link" style={{ color: 'black', fontWeight: 'bold' }}>Products</Link>
+                                <Link to="/products" className="nav-link" style={{ color: '#2c3e50', fontWeight: 'bold' }}>Products</Link>
                             </NavItem>
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret style={{ color: 'gray', fontWeight: 'bold' }}>
@@ -101,7 +101,7 @@ class NavbarComp extends React.Component {
                         {
                             this.props.username &&
                             <UncontrolledDropdown>
-                                <DropdownToggle nav caret style={{ color: 'gray' }}>
+                                <DropdownToggle nav caret style={{ color: '#2c3e50' }}>
                                     Hello, {this.props.username}
                                 </DropdownToggle>
                                 <DropdownMenu right>
