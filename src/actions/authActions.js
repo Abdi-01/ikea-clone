@@ -31,3 +31,11 @@ export const keepLogin = (data) => {
         payload: data
     }
 }
+
+export const updateCart = (data) => {
+    console.log("cart qty",data)
+    return {
+        type: "UPDATE_CART",
+        payload: data
+    }
+}

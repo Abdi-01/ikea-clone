@@ -5,7 +5,32 @@
       "username": "Admin",
       "email": "admin@mail.com",
       "password": "1234",
-      "cart": [],
+      "cart": [
+        {
+          "qty": 2,
+          "nama": "HAUGA V.2",
+          "type": "Krem",
+          "harga": 1599000,
+          "subTotal": 3198000,
+          "image": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/557/0955765_PE804101_S4.jpg"
+        },
+        {
+          "qty": 2,
+          "nama": "LINNEBÄCK",
+          "type": "White",
+          "harga": 995000,
+          "subTotal": 1990000,
+          "image": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg"
+        },
+        {
+          "qty": 2,
+          "nama": "HAUGA V.2",
+          "type": "Black",
+          "harga": 1599000,
+          "subTotal": 3198000,
+          "image": "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/557/0955765_PE804101_S4.jpg"
+        }
+      ],
       "role": "admin"
     },
     {
@@ -216,5 +241,8 @@
       ],
       "id": 7
     }
+  ],
+  "userTransaction":[
+    
   ]
 }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Collapse, Input } from 'reactstrap';
 import { URL_API } from '../helper';
 
@@ -9,7 +10,9 @@ class ProductDetail extends React.Component {
         this.state = {
             detail: {},
             thumbnail: 0,
-            openType: false
+            openType: false,
+            qty: 1,
+            selectedType: {}
         }
     }
 
@@ -28,11 +31,30 @@ class ProductDetail extends React.Component {
             })
     }
 
-    onBtAddToCart=()=>{
+    onBtAddToCart = () => {
         // qty, nama, type, price, total,image
         // mengambil data cart user dari reducer
         // data produk di push kedalam array.cart reducer
-        // simpan lewat axios.patch
+        console.log(this.props.cart)
+        if (this.state.selectedType.type) {
+            this.props.cart.push({
+                qty: this.state.qty, nama: this.state.detail.nama,
+                type: this.state.selectedType.type,
+                harga: this.state.detail.harga,
+                subTotal: this.state.qty * this.state.detail.harga,
+                image: this.state.detail.images[0]
+            })
+            // simpan lewat axios.patch
+            axios.patch(URL_API + `/users/${this.props.id}`, { cart: this.props.cart })
+                .then(res => {
+                    alert('Add to cart success ✔')
+                }).catch(err => {
+                    console.log(err)
+                })
+        } else {
+            alert('Choose product type first')
+        }
+
     }
 
     renderImages = () => {
@@ -47,6 +69,20 @@ class ProductDetail extends React.Component {
                 />
             )
         })
+    }
+
+    onBtInc = () => {
+        if (this.state.qty < this.state.selectedType.qty) {
+            this.setState({ qty: this.state.qty += 1 })
+        } else {
+            alert('Product out of stock')
+        }
+    }
+
+    onBtDec = () => {
+        if (this.state.qty > 1) {
+            this.setState({ qty: this.state.qty -= 1 })
+        }
     }
 
     render() {
@@ -71,7 +107,7 @@ class ProductDetail extends React.Component {
                                 <div
                                     style={{ cursor: 'pointer', fontWeight: 'bold' }}
                                     onClick={() => this.setState({ openType: !this.state.openType })}>
-                                    Type:</div>
+                                    Type: {this.state.selectedType.type}</div>
                                 <Collapse isOpen={this.state.openType}>
                                     {
                                         this.state.detail.stock.map((item, index) => {
@@ -79,6 +115,7 @@ class ProductDetail extends React.Component {
                                                 <div>
                                                     <Button outline color="secondary" size="sm"
                                                         style={{ width: '100%', border: 'none', textAlign: 'left' }}
+                                                        onClick={() => this.setState({ selectedType: item, qty: 1 })}
                                                     > {item.type} : {item.qty}</Button>
                                                 </div>
                                             )
@@ -88,16 +125,17 @@ class ProductDetail extends React.Component {
                             </div>
                             <div className="d-flex justify-content-between align-items-center">
                                 <span>Jumlah :</span>
-                                <span style={{ width: '30%', display: 'flex', alignItems: 'center',border: '1px solid gray' }}>
-                                    <span class="material-icons">
+                                <span style={{ width: '30%', display: 'flex', alignItems: 'center', border: '1px solid gray' }}>
+                                    <span className="material-icons" style={{ cursor: 'pointer' }} onClick={this.onBtDec}>
                                         remove
                                     </span>
-                                    <Input size="sm" placeholder="qty" style={{ width: "50%", display: 'inline-block' }} />
-                                    <span class="material-icons">
+                                    <Input size="sm" placeholder="qty" value={this.state.qty} style={{ width: "50%", display: 'inline-block' }} />
+                                    <span className="material-icons" style={{ cursor: 'pointer' }} onClick={this.onBtInc}>
                                         add
                                     </span>
                                 </span>
                             </div>
+                            <Button type="button" color="warning" style={{ width: '100%' }} onClick={this.onBtAddToCart}>Add to cart</Button>
                         </div>
                     </>
                 }
@@ -106,4 +144,10 @@ class ProductDetail extends React.Component {
     }
 }
 
-export default ProductDetail;
+const mapToProps = ({ authReducer }) => {
+    return {
+        ...authReducer
+    }
+}
+
+export default connect(mapToProps)(ProductDetail);
