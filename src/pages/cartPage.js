@@ -64,9 +64,11 @@ class CartPage extends React.Component {
     }
 
     onBtCheckOut=()=>{
-        // idUser,username,date,totalPayment,status(paid),cart
-        // axios.post => userTransactions
-        // data userTransaction ditampilkan di historyPage user, transactionPage Admin
+        //1. mengurangi qty productnya dulu, yg ada direducer
+        //2. axios.patch data product krn qty stocknya berubah
+        //3. idUser,username,date,totalPayment,status(paid),cart
+        //4. axios.post => userTransactions
+        //5. data userTransaction ditampilkan di historyPage user, transactionPage Admin
     }
 
     render() {
