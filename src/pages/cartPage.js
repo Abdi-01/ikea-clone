@@ -55,12 +55,14 @@ class CartPage extends React.Component {
         console.log(index)
         this.props.cart[index].qty += 1
         this.props.updateCart([...this.props.cart])
+        // axios.patch
     }
-
+    
     onBtDec = (index) => {
         console.log(index)
         this.props.cart[index].qty -= 1
         this.props.updateCart([...this.props.cart])
+        // axios.patch
     }
 
     onBtCheckOut=()=>{

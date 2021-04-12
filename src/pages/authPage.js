@@ -69,6 +69,23 @@ class AuthPage extends React.Component {
         this.props.authLogin(this.inEmail.value, this.inPassword.value)
     }
 
+    handlePassword = () => {
+        console.log(this.inRegisPassword.value)
+
+        let huruf = /[a-zA-Z]/
+        let numb = /[0-9]/
+
+        if (huruf.test(this.inRegisPassword.value) || numb.test(this.inRegisPassword.value)) {
+            if (huruf.test(this.inRegisPassword.value) && numb.test(this.inRegisPassword.value)) {
+                console.log("Huruf dan Angka")
+            } else if (huruf.test(this.inRegisPassword.value)) {
+                console.log("Hanya huruf")
+            } else if (numb.test(this.inRegisPassword.value)) {
+                console.log("Hanya angka")
+            }
+        }
+    }
+
     render() {
         if (this.props.id) {
             return <Redirect to="/" />
@@ -106,7 +123,7 @@ class AuthPage extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="textPassword">Password</Label>
-                            <Input type={this.state.passType} id="textPassword" innerRef={elemen => this.inRegisPassword = elemen} />
+                            <Input type={this.state.passType} onChange={this.handlePassword} id="textPassword" innerRef={elemen => this.inRegisPassword = elemen} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="textConfPassword"> Confirmation Password</Label>
