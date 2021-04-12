@@ -57,7 +57,7 @@ class CartPage extends React.Component {
         this.props.updateCart([...this.props.cart])
         // axios.patch
     }
-    
+
     onBtDec = (index) => {
         console.log(index)
         this.props.cart[index].qty -= 1
@@ -65,12 +65,39 @@ class CartPage extends React.Component {
         // axios.patch
     }
 
-    onBtCheckOut=()=>{
+    onBtCheckOut = () => {
         //1. mengurangi qty productnya dulu, yg ada direducer
         //2. axios.patch data product krn qty stocknya berubah
         //3. idUser,username,date,totalPayment,status(paid),cart
         //4. axios.post => userTransactions
         //5. data userTransaction ditampilkan di historyPage user, transactionPage Admin
+
+        console.log(this.props.cart)
+        console.log(this.props.products)
+        this.props.cart.forEach((item, index) => {
+            this.props.products.forEach((value, idx) => {
+                if (item.nama == value.nama) {
+                    // console.log(item.nama, value.nama)
+                    // console.log(value.stock, item.type)
+                    let idxStock = value.stock.findIndex(val => {
+                        // console.log(val.type)
+                        // console.log(item.type)
+                        // val.type == item.type
+                        return val.type == item.type
+                    })
+                    // console.log("idx", idxStock, item.qty)
+                    // console.log("before", value.stock[idxStock])
+                    value.stock[idxStock].qty -= item.qty
+                    // console.log("after", value.stock[idxStock])
+                    axios.patch(URL_API + `/products/${value.id}`, {
+                        stock: value.stock
+                    }).then(res=>{
+                        console.log("pengurangan product",res.data)
+                    }).catch(err => console.log(err))
+                }
+            })
+        })
+        // 
     }
 
     render() {
@@ -81,14 +108,15 @@ class CartPage extends React.Component {
                 <div className="mt-5">
                     {this.printCart()}
                 </div>
+                <Button type="button" onClick={this.onBtCheckOut}>Checkout</Button>
             </div>
         );
     }
 }
 
-const mapToProps = ({ authReducer }) => {
+const mapToProps = ({ authReducer, productReducers }) => {
     return {
-        ...authReducer
+        ...authReducer, products: productReducers.products_list
     }
 }
 

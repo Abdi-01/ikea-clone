@@ -15,6 +15,7 @@ import ReduxThunk from 'redux-thunk'
 const globalStore = createStore(Reducers, {}, applyMiddleware(ReduxThunk));
 ReactDOM.render(
   <Provider store={globalStore}>
+    {/* 1.config react-routerdom */}
     <BrowserRouter>
       <App />
     </BrowserRouter>
