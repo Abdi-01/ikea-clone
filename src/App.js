@@ -30,13 +30,17 @@ class App extends React.Component {
 
   reLogin = () => {
     let idToken = localStorage.getItem("tkn_id")
-    axios.get(URL_API + `/users?id=${idToken}`)
-      .then(res => {
-        this.props.keepLogin(res.data[0])
+    if (idToken) {
+      axios.post(URL_API + `/users/keep`, {
+        id: idToken
       })
-      .catch(err => {
-        console.log("Keeplogin error :", err)
-      })
+        .then(res => {
+          this.props.keepLogin(res.data[0])
+        })
+        .catch(err => {
+          console.log("Keeplogin error :", err)
+        })
+    }
   }
 
   // getProducts = () => {
@@ -57,8 +61,8 @@ class App extends React.Component {
           <Route path="/" component={LandingPage} exact />
           <Route path="/auth" component={AuthPage} />
           <Route path="/products" component={ProductsPage} />
-          <Route path="/product-detail" component={ProductDetail}/>
-          <Route path="/cart" component={CartPage}/>
+          <Route path="/product-detail" component={ProductDetail} />
+          <Route path="/cart" component={CartPage} />
           {
             this.props.role == "admin" &&
             <>

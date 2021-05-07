@@ -139,7 +139,7 @@ class AuthPage extends React.Component {
 
 const mapToProps = ({ authReducer }) => {
     return {
-        id: authReducer.id
+        id: authReducer.iduser
     }
 }
 
