@@ -12,7 +12,7 @@ import { URL_API } from "../helper"
 // redux-thunk
 export const getProductAction = (field="id",sortType="asc") => {
     return (dispatch) => {
-        axios.get(URL_API + `/products`)
+        axios.get(URL_API + `/products/get-all`)
             .then(res => {
                 // mengarahkan data ke reducer
                 dispatch({

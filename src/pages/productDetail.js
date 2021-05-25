@@ -22,7 +22,7 @@ class ProductDetail extends React.Component {
 
     getProductDetail = () => {
         console.log(this.props.location)
-        axios.get(URL_API + `/products${this.props.location.search}`)
+        axios.get(URL_API + `/products/get-all${this.props.location.search}`)
             .then(res => {
                 console.log("data detail product", res.data)
                 this.setState({ detail: res.data[0] })
@@ -89,7 +89,7 @@ class ProductDetail extends React.Component {
         return (
             <div className="row p-5">
                 {
-                    this.state.detail.id &&
+                    this.state.detail.idproduct &&
                     <>
                         <div className="col-md-1">
                             {this.renderImages()}
@@ -100,7 +100,7 @@ class ProductDetail extends React.Component {
                         <div className="col-md-4">
                             <div style={{ borderBottom: '1.5px solid gray' }}>
                                 <h4 style={{ fontWeight: 'bolder' }}>{this.state.detail.nama}</h4>
-                                <h6 className="text-mute">{this.state.detail.kategori}</h6>
+                                {/* <h6 className="text-mute">{this.state.detail.kategori}</h6> */}
                                 <h2 style={{ fontWeight: 'bolder' }}>Rp {this.state.detail.harga.toLocaleString()}</h2>
                             </div>
                             <div style={{ borderBottom: '1.5px solid gray' }}>

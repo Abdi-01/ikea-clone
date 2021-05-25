@@ -30,17 +30,16 @@ class AuthPage extends React.Component {
             setTimeout(() => this.setState({ alert: !this.state.alert, message: '', alertType: '' }), 3000)
         } else {
             if (email.includes('@')) {
-                axios.get(URL_API + `/users?email=${email}`)
+                axios.get(URL_API + `/users/get-all?email=${email}`)
                     .then(res => {
                         if (res.data.length > 0) {
                             this.setState({ alert: !this.state.alert, message: "Email sudah terdaftar", alertType: 'warning' })
                             setTimeout(() => this.setState({ alert: !this.state.alert, message: '', alertType: '' }), 3000)
                         } else {
-                            axios.post(URL_API + `/users`, {
+                            axios.post(URL_API + `/users/regis`, {
                                 username,
                                 email,
-                                password,
-                                role: 'user'
+                                password
                             })
                                 .then(res => {
                                     this.setState({ alert: !this.state.alert, message: "Registrasi akun sukses ✔", alertType: 'success' })

@@ -13,12 +13,13 @@ class ModalProduct extends React.Component {
 
     onBtAdd = () => {
         console.log(this.state.stock)
-        axios.post(URL_API + '/products', {
+        axios.post(URL_API + '/products/post', {
             nama: this.inNama.value,
-            deskripsi: this.inDeskripsi.value,
             brand: this.inBrand.value,
-            kategori: this.inKategori.value,
+            deskripsi: this.inDeskripsi.value,
+            // kategori: this.inKategori.value,
             harga: parseInt(this.inHarga.value),
+            idstatus:1,
             stock: this.state.stock,
             images: this.state.images
         }).then(res => {
