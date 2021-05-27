@@ -45,14 +45,14 @@ class ProductManagement extends React.Component {
                 <td style={{ width: '20vw', textAlign: 'center' }}>
                     {
                         this.state.thumbnail[0] == index ?
-                            <img src={item.images[this.state.thumbnail[1]]} width="80%" alt={item.nama + index} />
+                            <img src={item.images[this.state.thumbnail[1]].images} width="80%" alt={item.nama + index} />
                             :
-                            <img src={item.images[0]} width="80%" alt={item.nama + index} />
+                            <img src={item.images[0].images} width="80%" alt={item.nama + index} />
                     }
                     <div>
                         {
                             item.images.map((value, idx) => {
-                                return <img src={value} style={kursor} width="20%" alt={item.nama + idx}
+                                return <img src={value.images} style={kursor} width="20%" alt={item.nama + idx}
                                     onClick={() => this.setState({ thumbnail: [index, idx] })} />
                             })
                         }
@@ -68,9 +68,19 @@ class ProductManagement extends React.Component {
                 }</td>
                 <td>Rp. {item.harga.toLocaleString()}</td>
                 <td><Button type="button" size="sm" color="warning" onClick={() => this.setState({ detailProduk: item, modalEditOpen: !this.state.modalEditOpen })}>Detail</Button>
-                    <Button size="sm" color="danger">Delete</Button></td>
+                    <Button size="sm" color="danger" onClick={()=>this.onBtDelete(item.idproduct)}>Delete</Button></td>
             </tr>
         })
+    }
+
+    onBtDelete = (id) => {
+        axios.delete(URL_API + `/products/delete?id=${id}`)
+            .then(res => {
+                alert(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     handleSort = () => {
