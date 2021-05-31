@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Input } from 'reactstrap';
-import { updateCartQty } from '../actions'
+import { updateCartQty, deleteCart } from '../actions'
 import { URL_API } from '../helper';
 class CartPage extends React.Component {
     constructor(props) {
@@ -35,20 +35,10 @@ class CartPage extends React.Component {
                         </div>
                         <h4>Rp {(item.harga * item.qty).toLocaleString()}</h4>
                     </div>
-                    <Button outline color="warning" style={{ border: 'none', float: 'right' }} onClick={() => this.onBtRemove(index)}>Remove</Button>
+                    <Button outline color="warning" style={{ border: 'none', float: 'right' }} onClick={() => this.props.deleteCart(item.idcart,this.props.iduser)}>Remove</Button>
                 </div>
             </div>
         })
-    }
-
-    onBtRemove = (index) => {
-        this.props.cart.splice(index, 1)
-        axios.patch(URL_API + `/users/${this.props.id}`, { cart: this.props.cart })
-            .then(res => {
-                this.props.updateCart([...this.props.cart])
-            }).catch(err => {
-                console.log(err)
-            })
     }
 
     onBtInc = (index) => {
@@ -122,4 +112,4 @@ const mapToProps = ({ authReducer, productReducers }) => {
     }
 }
 
-export default connect(mapToProps, { updateCartQty })(CartPage);
+export default connect(mapToProps, { updateCartQty, deleteCart })(CartPage);

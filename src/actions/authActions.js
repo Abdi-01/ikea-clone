@@ -46,7 +46,7 @@ export const keepLogin = (data) => {
     return async (dispatch) => {
         try {
             let cart = await dispatch(getCart(data.iduser))
-            console.log("cart2", cart)
+            // console.log("cart2", cart)
             dispatch({
                 type: "LOGIN_SUCCESS",
                 payload: { ...data, cart }
@@ -64,6 +64,24 @@ export const updateCartQty = ({ iduser, qty, idcart }) => {
             let updateQty = await axios.patch(URL_API + `/transaction/update-qty`, {
                 qty, idcart
             })
+            // api get ulang data cart
+            let cart = await dispatch(getCart(iduser))
+            dispatch({
+                type: "UPDATE_CART",
+                payload: cart
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export const deleteCart = (idcart, iduser) => {
+    console.log(idcart,iduser)
+    return async dispatch => {
+        try {
+            // api delete qty cart
+            await axios.delete(URL_API + `/transaction/delete-cart/${idcart}`)
             // api get ulang data cart
             let cart = await dispatch(getCart(iduser))
             dispatch({
