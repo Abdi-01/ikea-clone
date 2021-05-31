@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Input } from 'reactstrap';
-import { updateCart } from '../actions'
+import { updateCartQty } from '../actions'
 import { URL_API } from '../helper';
 class CartPage extends React.Component {
     constructor(props) {
@@ -14,7 +14,7 @@ class CartPage extends React.Component {
         return this.props.cart.map((item, index) => {
             return <div className="row">
                 <div className="col-md-2">
-                    <img src={item.image} width="100%" />
+                    <img src={item.images[0].images} width="100%" />
                 </div>
                 <div className="col-md-6">
                     <h5 style={{ fontWeight: 'bolder' }}>{item.nama}</h5>
@@ -33,7 +33,7 @@ class CartPage extends React.Component {
                             </span>
                             </span>
                         </div>
-                        <h4>Rp {item.subTotal.toLocaleString()}</h4>
+                        <h4>Rp {(item.harga * item.qty).toLocaleString()}</h4>
                     </div>
                     <Button outline color="warning" style={{ border: 'none', float: 'right' }} onClick={() => this.onBtRemove(index)}>Remove</Button>
                 </div>
@@ -53,15 +53,17 @@ class CartPage extends React.Component {
 
     onBtInc = (index) => {
         console.log(index)
-        this.props.cart[index].qty += 1
-        this.props.updateCart([...this.props.cart])
+        let { iduser, cart, updateCartQty } = this.props
+        cart[index].qty += 1
+        updateCartQty({ iduser, qty: cart[index].qty, idcart: cart[index].idcart })
         // axios.patch
     }
 
     onBtDec = (index) => {
         console.log(index)
-        this.props.cart[index].qty -= 1
-        this.props.updateCart([...this.props.cart])
+        let { iduser, cart, updateCartQty } = this.props
+        cart[index].qty -= 1
+        updateCartQty({ iduser, qty: cart[index].qty, idcart: cart[index].idcart })
         // axios.patch
     }
 
@@ -91,8 +93,8 @@ class CartPage extends React.Component {
                     // console.log("after", value.stock[idxStock])
                     axios.patch(URL_API + `/products/${value.id}`, {
                         stock: value.stock
-                    }).then(res=>{
-                        console.log("pengurangan product",res.data)
+                    }).then(res => {
+                        console.log("pengurangan product", res.data)
                     }).catch(err => console.log(err))
                 }
             })
@@ -120,4 +122,4 @@ const mapToProps = ({ authReducer, productReducers }) => {
     }
 }
 
-export default connect(mapToProps, { updateCart })(CartPage);
+export default connect(mapToProps, { updateCartQty })(CartPage);
