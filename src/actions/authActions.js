@@ -10,6 +10,8 @@ export const authLogin = (email, password) => {
             .then(res => {
                 console.log(res.data)
                 localStorage.setItem("tkn_id", res.data[0].iduser)
+                // Jika ingin menjalankan fungsi action lain
+                dispatch(getCart(res.data[0].iduser))
                 // // menyimpan data ke reducer
                 dispatch({
                     type: "LOGIN_SUCCESS",
@@ -21,6 +23,15 @@ export const authLogin = (email, password) => {
     }
 }
 
+export const getCart = (id) => {
+    axios.get(URL_API + `/transaction/get-cart/${id}`)
+        .then(res => {
+            console.log("cart user", res.data)
+        }).catch(err => {
+            console.log(err)
+        })
+}
+
 export const authLogout = () => {
     localStorage.removeItem('tkn_id')
     return {
@@ -29,9 +40,12 @@ export const authLogout = () => {
 }
 
 export const keepLogin = (data) => {
-    return {
-        type: "LOGIN_SUCCESS",
-        payload: data
+    return dispatch => {
+        dispatch(getCart(data.iduser))
+        dispatch({
+            type: "LOGIN_SUCCESS",
+            payload: data
+        })
     }
 }
 

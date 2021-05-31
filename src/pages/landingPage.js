@@ -17,7 +17,7 @@ class LandingPage extends React.Component {
             return this.props.products.map((item, index) => {
                 return <div >
                     <Card style={{ border: 'none' }}>
-                        <CardImg top width="100%" src={item.images[0]} alt="Card image cap" />
+                        <CardImg top width="100%" src={item.images[0].images} alt="Card image cap" />
                         <CardBody>
                             <CardTitle tag="h5" style={{ fontWeight: 'bolder' }}>{item.nama}</CardTitle>
                             {/* <CardSubtitle tag="h6" className="mb-2 text-muted">{item.kategori}</CardSubtitle> */}

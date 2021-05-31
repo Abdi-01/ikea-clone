@@ -54,7 +54,7 @@ class NavbarComp extends React.Component {
                         <li><Link to="/auth">Masuk atau Daftar</Link></li>
                     </ul>
                 </div>
-                <Navbar expand="md" style={{backgroundColor: this.props.role == "admin" ? '#95a5a6' : "#FFFFFF"}}>
+                <Navbar expand="md" style={{ backgroundColor: this.props.role == "admin" ? '#95a5a6' : "#FFFFFF" }}>
                     <NavbarBrand>
                         <Link to="/">
                             <img src="https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/logos/IKEA_logo.svg"
@@ -112,7 +112,9 @@ class NavbarComp extends React.Component {
                                                     Profile
                                                 </DropdownItem>
                                                 <DropdownItem>
-                                                    Cart
+                                                    <Link to="/cart" style={{ textDecoration: 'none', color: 'black' }}>
+                                                        Cart
+                                                    </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
                                                     History
@@ -120,7 +122,7 @@ class NavbarComp extends React.Component {
                                             </> :
                                             <>
                                                 <DropdownItem>
-                                                    <Link to="/product-management" style={{ textDecoration: 'none', color: 'gray' }}>
+                                                    <Link to="/product-management" style={{ textDecoration: 'none', color: 'black' }}>
                                                         Product Management
                                                     </Link>
                                                 </DropdownItem>

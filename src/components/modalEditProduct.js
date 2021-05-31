@@ -42,30 +42,31 @@ class ModalEditProduct extends React.Component {
     }
 
     printStock = () => {
-        let { stock } = this.state
-        if (stock) {
-            return stock.map((item, index) => {
-                return <Row>
-                    <Col>
-                        <Input type="text" defaultValue={item.type} placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
-                    </Col>
-                    <Col>
-                        <Input type="number" defaultValue={item.qty} placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
-                    </Col>
-                    <Col>
-                        <a onClick={() => this.onBtDeleteStock(index)} style={{ cursor: 'pointer' }}>Delete</a>
-                    </Col>
-                </Row>
-            })
+        // let { stock } = this.state
+        // console.log(stock)
+        if (this.props.detailProduk.stock) {
+        return this.props.detailProduk.stock.map((item, index) => {
+            return <Row>
+                <Col>
+                    <Input type="text" defaultValue={item.type} placeholder={`Type-${index + 1}`} onChange={(e) => this.handleType(e, index)} />
+                </Col>
+                <Col>
+                    <Input type="number" defaultValue={item.qty} placeholder={`Stock-${index + 1}`} onChange={(e) => this.handleStock(e, index)} />
+                </Col>
+                <Col>
+                    <a onClick={() => this.onBtDeleteStock(index)} style={{ cursor: 'pointer' }}>Delete</a>
+                </Col>
+            </Row>
+        })
         }
     }
 
     printImages = () => {
         let { images } = this.state
-        if (images) {
-            return images.map((item, index) => {
-                return <Input type="text" defaultValue={item} placeholder={`Images-${index + 1}`} onChange={(e) => this.handleImages(e, index)} />
-            })
+        if (this.props.detailProduk.images) {
+        return this.props.detailProduk.images.map((item, index) => {
+            return <Input type="text" defaultValue={item.images} placeholder={`Images-${index + 1}`} onChange={(e) => this.handleImages(e, index)} />
+        })
         }
     }
 
@@ -75,7 +76,7 @@ class ModalEditProduct extends React.Component {
     }
 
     handleImages = (e, index) => {
-        this.props.detailProduk.images[index] = e.target.value
+        this.props.detailProduk.images[index].images = e.target.value
     }
 
     handleType = (e, index) => {
@@ -93,25 +94,28 @@ class ModalEditProduct extends React.Component {
     }
 
     onBtSave = () => {
-        console.log(
-            {
-                nama: this.inNama.value,
-                deskripsi: this.inDeskripsi.value,
-                brand: this.inBrand.value,
-                kategori: this.inKategori.value,
-                harga: parseInt(this.inHarga.value),
-                stock: this.props.detailProduk.stock,
-                images: this.props.detailProduk.images
-            }
-        )
-        axios.patch(URL_API + `/products/${this.props.detailProduk.id}`, {
+        // console.log(this.props.detailProduk)
+        // console.log("update",
+        //     {
+        //         nama: this.inNama.value,
+        //         deskripsi: this.inDeskripsi.value,
+        //         brand: this.inBrand.value,
+        //         kategori: this.inKategori.value,
+        //         harga: parseInt(this.inHarga.value),
+        //         stock: this.props.detailProduk.stock,
+        //         images: this.props.detailProduk.images
+        //     }
+        // )
+        axios.patch(URL_API + `/products/update`, {
+            idproduct:this.props.detailProduk.idproduct,
             nama: this.inNama.value,
             deskripsi: this.inDeskripsi.value,
             brand: this.inBrand.value,
-            kategori: this.inKategori.value,
+            // kategori: this.inKategori.value,
             harga: parseInt(this.inHarga.value),
             stock: this.props.detailProduk.stock,
-            images: this.props.detailProduk.images
+            images: this.props.detailProduk.images,
+            idstatus:this.props.detailProduk.idstatus
         })
             .then(res => {
                 console.log(res.data)
