@@ -10,12 +10,11 @@ export const authLogin = (email, password) => {
             console.log(res.data)
             localStorage.setItem("tkn_id", res.data[0].iduser)
             // Jika ingin menjalankan fungsi action lain
-            let cart = await dispatch(getCart(res.data[0].iduser))
-            console.log("cart1", cart)
+            await dispatch(getCart(res.data[0].iduser))
             // // menyimpan data ke reducer
             dispatch({
                 type: "LOGIN_SUCCESS",
-                payload: { ...res.data[0], cart }
+                payload: { ...res.data[0] }
             })
         } catch (error) {
             console.log(error)
@@ -28,7 +27,11 @@ export const getCart = (id) => {
         try {
             let res = await axios.get(URL_API + `/transaction/get-cart/${id}`)
             console.log("cart user", res.data)
-            return res.data
+            dispatch({
+                type: "UPDATE_CART",
+                payload: res.data
+            })
+            // return res.data
         } catch (error) {
             console.log(error)
         }
@@ -45,11 +48,11 @@ export const authLogout = () => {
 export const keepLogin = (data) => {
     return async (dispatch) => {
         try {
-            let cart = await dispatch(getCart(data.iduser))
+            await dispatch(getCart(data.iduser))
             // console.log("cart2", cart)
             dispatch({
                 type: "LOGIN_SUCCESS",
-                payload: { ...data, cart }
+                payload: { ...data }
             })
         } catch (error) {
             console.log(error)
@@ -65,11 +68,11 @@ export const updateCartQty = ({ iduser, qty, idcart }) => {
                 qty, idcart
             })
             // api get ulang data cart
-            let cart = await dispatch(getCart(iduser))
-            dispatch({
-                type: "UPDATE_CART",
-                payload: cart
-            })
+            await dispatch(getCart(iduser))
+            // dispatch({
+            //     type: "UPDATE_CART",
+            //     payload: cart
+            // })
         } catch (error) {
             console.log(error)
         }
@@ -77,7 +80,7 @@ export const updateCartQty = ({ iduser, qty, idcart }) => {
 }
 
 export const deleteCart = (idcart, iduser) => {
-    console.log(idcart,iduser)
+    console.log(idcart, iduser)
     return async dispatch => {
         try {
             // api delete qty cart

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Collapse, Input } from 'reactstrap';
+import { getCart } from '../actions';
 import { URL_API } from '../helper';
 
 class ProductDetail extends React.Component {
@@ -35,19 +36,24 @@ class ProductDetail extends React.Component {
         // qty, nama, type, price, total,image
         // mengambil data cart user dari reducer
         // data produk di push kedalam array.cart reducer
-        console.log(this.props.cart)
         if (this.state.selectedType.type) {
-            this.props.cart.push({
-                qty: this.state.qty, nama: this.state.detail.nama,
-                type: this.state.selectedType.type,
-                harga: this.state.detail.harga,
-                subTotal: this.state.qty * this.state.detail.harga,
-                image: this.state.detail.images[0]
-            })
+            // this.props.cart.push({
+            //     qty: this.state.qty, nama: this.state.detail.nama,
+            //     type: this.state.selectedType.type,
+            //     harga: this.state.detail.harga,
+            //     subTotal: this.state.qty * this.state.detail.harga,
+            //     image: this.state.detail.images[0]
+            // })
             // simpan lewat axios.patch
-            axios.patch(URL_API + `/users/${this.props.id}`, { cart: this.props.cart })
+            axios.post(URL_API + `/transaction/post-cart`, {
+                iduser: this.props.iduser,
+                idproduct: this.state.detail.idproduct,
+                idstock: this.state.selectedType.idproduct_stock,
+                qty: this.state.qty
+            })
                 .then(res => {
                     alert('Add to cart success ✔')
+                    this.props.getCart(this.props.iduser)
                 }).catch(err => {
                     console.log(err)
                 })
@@ -150,4 +156,4 @@ const mapToProps = ({ authReducer }) => {
     }
 }
 
-export default connect(mapToProps)(ProductDetail);
+export default connect(mapToProps, { getCart })(ProductDetail);
