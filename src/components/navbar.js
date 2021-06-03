@@ -117,7 +117,9 @@ class NavbarComp extends React.Component {
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
-                                                    History
+                                                    <Link to="/history" style={{ textDecoration: 'none', color: 'black' }}>
+                                                        History
+                                                    </Link>
                                                 </DropdownItem>
                                             </> :
                                             <>
@@ -127,7 +129,9 @@ class NavbarComp extends React.Component {
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
-                                                    Transaction Management
+                                                    <Link to="/history" style={{ textDecoration: 'none', color: 'black' }}>
+                                                        Transaction Management
+                                                    </Link>
                                                 </DropdownItem>
                                             </>
                                     }

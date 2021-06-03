@@ -11,6 +11,7 @@ export const authLogin = (email, password) => {
             localStorage.setItem("tkn_id", res.data[0].iduser)
             // Jika ingin menjalankan fungsi action lain
             await dispatch(getCart(res.data[0].iduser))
+            await dispatch(getTransaction(res.data[0].iduser))
             // // menyimpan data ke reducer
             dispatch({
                 type: "LOGIN_SUCCESS",
@@ -49,6 +50,7 @@ export const keepLogin = (data) => {
     return async (dispatch) => {
         try {
             await dispatch(getCart(data.iduser))
+            await dispatch(getTransaction(data.iduser))
             // console.log("cart2", cart)
             dispatch({
                 type: "LOGIN_SUCCESS",
@@ -86,11 +88,26 @@ export const deleteCart = (idcart, iduser) => {
             // api delete qty cart
             await axios.delete(URL_API + `/transaction/delete-cart/${idcart}`)
             // api get ulang data cart
-            let cart = await dispatch(getCart(iduser))
+            await dispatch(getCart(iduser))
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+// Transaksi
+export const getTransaction = (id) => {
+    return async (dispatch) => {
+        try {
+            id = id>1?id:0
+            let res = await axios.get(URL_API + `/transaction/data/${id}`)
+            console.log("transaction user", res.data)
             dispatch({
-                type: "UPDATE_CART",
-                payload: cart
+                type: "GET_TRANSACTION",
+                payload: res.data.results
             })
+            // return res.data
         } catch (error) {
             console.log(error)
         }

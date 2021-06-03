@@ -14,6 +14,7 @@ import NotFound from './pages/notFound';
 import ProductsPage from './pages/productsPage';
 import ProductDetail from './pages/productDetail';
 import CartPage from './pages/cartPage';
+import HistoryPage from './pages/historyPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -63,6 +64,7 @@ class App extends React.Component {
           <Route path="/products" component={ProductsPage} />
           <Route path="/product-detail" component={ProductDetail} />
           <Route path="/cart" component={CartPage} />
+          <Route path="/history" component={HistoryPage} />
           {
             this.props.role == "admin" &&
             <>

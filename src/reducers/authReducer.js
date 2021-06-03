@@ -3,7 +3,8 @@ const INITIAL_STATE = {
     username: '',
     email: '',
     role: '',
-    cart: []
+    cart: [],
+    transaction:[]
 }
 
 export const authReducer = (state = INITIAL_STATE, action) => {
@@ -15,6 +16,9 @@ export const authReducer = (state = INITIAL_STATE, action) => {
         case "UPDATE_CART":
             console.log("reducer", action.payload)
             return { ...state, cart: action.payload }
+        case "GET_TRANSACTION":
+            console.log("reducer", action.payload)
+            return { ...state, transaction: action.payload }
         case "LOGOUT":
             return INITIAL_STATE
         default:
