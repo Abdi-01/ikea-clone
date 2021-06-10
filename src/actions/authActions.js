@@ -8,19 +8,19 @@ export const authLogin = (email, password) => {
                 email, password
             })
             console.log(res.data)
-            if (res.data[0].idstatus == 11) {
-                localStorage.setItem("tkn_id", res.data[0].iduser)
+            if (res.data.idstatus == 11) {
+                localStorage.setItem("tkn_id", res.data.token)
                 // Jika ingin menjalankan fungsi action lain
-                await dispatch(getCart(res.data[0].iduser))
-                await dispatch(getTransaction(res.data[0].iduser))
+                await dispatch(getCart(res.data.iduser))
+                await dispatch(getTransaction(res.data.iduser))
                 dispatch({
                     type: "LOGIN_SUCCESS",
-                    payload: { ...res.data[0] }
+                    payload: { ...res.data }
                 })
             } else {
                 dispatch({
                     type: "LOGIN_SUCCESS",
-                    payload: { idstatus: res.data[0].idstatus }
+                    payload: { idstatus: res.data.idstatus }
                 })
             }
             // // menyimpan data ke reducer
@@ -56,6 +56,7 @@ export const authLogout = () => {
 export const keepLogin = (data) => {
     return async (dispatch) => {
         try {
+            localStorage.setItem("tkn_id", data.token)
             await dispatch(getCart(data.iduser))
             await dispatch(getTransaction(data.iduser))
             // console.log("cart2", cart)

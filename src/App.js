@@ -31,13 +31,16 @@ class App extends React.Component {
   }
 
   reLogin = () => {
-    let idToken = localStorage.getItem("tkn_id")
-    if (idToken) {
-      axios.post(URL_API + `/users/keep`, {
-        id: idToken
-      })
+    let token = localStorage.getItem("tkn_id")
+    if (token) {
+      const headers = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
+      axios.post(URL_API + `/users/keep`, {}, headers)
         .then(res => {
-          this.props.keepLogin(res.data[0])
+          this.props.keepLogin(res.data)
         })
         .catch(err => {
           console.log("Keeplogin error :", err)
