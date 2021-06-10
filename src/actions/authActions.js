@@ -8,15 +8,22 @@ export const authLogin = (email, password) => {
                 email, password
             })
             console.log(res.data)
-            localStorage.setItem("tkn_id", res.data[0].iduser)
-            // Jika ingin menjalankan fungsi action lain
-            await dispatch(getCart(res.data[0].iduser))
-            await dispatch(getTransaction(res.data[0].iduser))
+            if (res.data[0].idstatus == 11) {
+                localStorage.setItem("tkn_id", res.data[0].iduser)
+                // Jika ingin menjalankan fungsi action lain
+                await dispatch(getCart(res.data[0].iduser))
+                await dispatch(getTransaction(res.data[0].iduser))
+                dispatch({
+                    type: "LOGIN_SUCCESS",
+                    payload: { ...res.data[0] }
+                })
+            } else {
+                dispatch({
+                    type: "LOGIN_SUCCESS",
+                    payload: { idstatus: res.data[0].idstatus }
+                })
+            }
             // // menyimpan data ke reducer
-            dispatch({
-                type: "LOGIN_SUCCESS",
-                payload: { ...res.data[0] }
-            })
         } catch (error) {
             console.log(error)
         }
@@ -89,7 +96,7 @@ export const deleteCart = (idcart, iduser) => {
             await axios.delete(URL_API + `/transaction/delete-cart/${idcart}`)
             // api get ulang data cart
             await dispatch(getCart(iduser))
-            
+
         } catch (error) {
             console.log(error)
         }
@@ -100,7 +107,7 @@ export const deleteCart = (idcart, iduser) => {
 export const getTransaction = (id) => {
     return async (dispatch) => {
         try {
-            id = id>1?id:0
+            id = id > 1 ? id : 0
             let res = await axios.get(URL_API + `/transaction/data/${id}`)
             console.log("transaction user", res.data)
             dispatch({

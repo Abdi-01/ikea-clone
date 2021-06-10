@@ -85,8 +85,20 @@ class AuthPage extends React.Component {
         }
     }
 
+    onBtReverification = async () => {
+        try {
+            let res = await axios.patch(URL_API + `/users/reverification`, {
+                email: this.inEmail.value,
+                password: this.inPassword.value
+            })
+            alert(res.data.message)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     render() {
-        if (this.props.id) {
+        if (this.props.id && this.props.idstatus == 11) {
             return <Redirect to="/" />
         }
         return (
@@ -97,6 +109,9 @@ class AuthPage extends React.Component {
                     <div className="col-6 p-5">
                         <h3>Silakan masuk ke akun Anda</h3>
                         <p>Silakan masuk ke akun Anda untuk menyelesaikan pembayaran dengan data pribadi Anda.</p>
+                        <Alert isOpen={this.props.idstatus && this.props.idstatus == 12 ? true : false} color="warning">
+                            Your account not verified <a className="alert-link" onClick={this.onBtReverification}>Request Verification</a>
+                        </Alert>
                         <FormGroup>
                             <Label for="textEmail">Email</Label>
                             <Input type="email" id="textEmail" innerRef={elemen => this.inEmail = elemen} />
@@ -138,7 +153,8 @@ class AuthPage extends React.Component {
 
 const mapToProps = ({ authReducer }) => {
     return {
-        id: authReducer.iduser
+        id: authReducer.iduser,
+        idstatus: authReducer.idstatus
     }
 }
 
