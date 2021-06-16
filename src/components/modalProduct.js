@@ -7,22 +7,36 @@ class ModalProduct extends React.Component {
         super(props);
         this.state = {
             stock: [],
-            images: []
+            images: [],
+            fileName: "Select file",
+            fileUpload: null
+        }
+    }
+
+
+    onBtFile = (e) => {
+        if (e.target.files[0]) {
+            this.setState({ fileName: e.target.files[0].name, fileUpload: e.target.files[0] })
+        } else {
+            this.setState({ fileName: "Select file", fileUpload: null })
         }
     }
 
     onBtAdd = () => {
         console.log(this.state.stock)
-        axios.post(URL_API + '/products/post', {
+        let formData = new FormData()
+        let data = {
             nama: this.inNama.value,
             brand: this.inBrand.value,
             deskripsi: this.inDeskripsi.value,
             // kategori: this.inKategori.value,
             harga: parseInt(this.inHarga.value),
-            idstatus:1,
-            stock: this.state.stock,
-            images: this.state.images
-        }).then(res => {
+            idstatus: 1,
+            stock: this.state.stock
+        }
+        formData.append('data', JSON.stringify(data))
+        formData.append('images', this.state.fileUpload)
+        axios.post(URL_API + '/products/post', formData).then(res => {
             console.log(res.data)
             this.props.getData()
             alert('Add Product Success')
@@ -65,8 +79,8 @@ class ModalProduct extends React.Component {
     printImages = () => {
         if (this.state.images.length > 0) {
             return this.state.images.map((item, index) => {
-                return <Input type="text" placeholder={`Images-${index + 1}`} 
-                onChange={(e) => this.handleImages(e, index)} />
+                return <Input type="text" placeholder={`Images-${index + 1}`}
+                    onChange={(e) => this.handleImages(e, index)} />
             })
         }
     }
@@ -132,10 +146,19 @@ class ModalProduct extends React.Component {
                         <Button outline color="success" type="button" size="sm" style={{ float: 'right' }} onClick={this.onBtAddStock}>Add Stock</Button>
                         {this.printStock()}
                     </FormGroup>
+                    <hr />
                     <FormGroup>
                         <Label>Images</Label>
-                        <Button outline color="success" type="button" size="sm" style={{ float: 'right' }} onClick={this.onBtAddImages} >Add Image</Button>
-                        {this.printImages()}
+                        <div className="row">
+                            <div className="col-md-6 text-center">
+                                <img id="imgpreview" style={{ maxWidth: '95%' }} className="col-8 mx-auto" alt="previ" src={this.state.fileUpload ? URL.createObjectURL(this.state.fileUpload) : "https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg"} />
+                            </div>
+                            <div className="col-md-6 py-5">
+                                <Input type="file" onChange={this.onBtFile} />
+                            </div>
+                        </div>
+                        {/* <Button outline color="success" type="button" size="sm" style={{ float: 'right' }} onClick={this.onBtAddImages} >Add Image</Button> */}
+                        {/* {this.printImages()} */}
                     </FormGroup>
                 </ModalBody>
                 <ModalFooter>

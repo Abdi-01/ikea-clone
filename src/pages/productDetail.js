@@ -45,12 +45,17 @@ class ProductDetail extends React.Component {
             //     image: this.state.detail.images[0]
             // })
             // simpan lewat axios.patch
+            let token = localStorage.getItem("tkn_id")
+            const headers = {
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              }
             axios.post(URL_API + `/transaction/post-cart`, {
-                iduser: this.props.iduser,
                 idproduct: this.state.detail.idproduct,
                 idstock: this.state.selectedType.idproduct_stock,
                 qty: this.state.qty
-            })
+            }, headers)
                 .then(res => {
                     alert('Add to cart success ✔')
                     this.props.getCart(this.props.iduser)
